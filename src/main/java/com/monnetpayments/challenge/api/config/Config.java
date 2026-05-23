@@ -4,24 +4,27 @@ import com.monnetpayments.challenge.api.domain.EnglishQ;
 import com.monnetpayments.challenge.api.domain.SpainQ;
 import com.monnetpayments.challenge.api.domain.Q;
 import com.monnetpayments.challenge.api.domain.UppercaseQ;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 @Configuration
-public final class Config {
+public class Config {
 
-    @Bean
+    @Bean("SpainQ")
     Q getQ(){
         return new SpainQ();
     }
 
-    @Bean
+    @Bean("EnglishQ")
     Q getQ2(){
         return new EnglishQ();
     }
 
-    @Bean
-    Q getQ3(){
+    @Bean("UppercaseQ")
+    Q getQ3(
+            @Qualifier("SpainQ") Q q){
         return new UppercaseQ(new SpainQ());
     }
 }

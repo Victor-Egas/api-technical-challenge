@@ -2,23 +2,27 @@ package com.monnetpayments.challenge.api.infrastructure.services;
 
 import com.monnetpayments.challenge.api.application.services.Service;
 import com.monnetpayments.challenge.api.domain.Q;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.monnetpayments.challenge.api.domain.UppercaseQ;
+import com.monnetpayments.challenge.api.infrastructure.factory.QFactory;
 
 @org.springframework.stereotype.Service
 public class ServiceWithQ implements Service {
 
-    private final Q q;
+    private final QFactory factory;
 
-    public ServiceWithQ(
-            @Qualifier("SpainQ")
-            Q q
-    ) {
-        this.q = q;
+    public ServiceWithQ(QFactory factory) {
+        this.factory = factory;
     }
 
     @Override
-    public String doAGreet() {
+    public String doAGreet( String language,
+                            boolean uppercase) {
+        Q q = factory.getQ(language);
+
+        if (uppercase) {
+            q = new UppercaseQ(q);
+        }
+
         return q.greet();
     }
 }

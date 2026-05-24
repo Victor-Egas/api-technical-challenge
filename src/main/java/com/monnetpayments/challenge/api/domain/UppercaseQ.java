@@ -10,6 +10,11 @@ public class UppercaseQ implements Q {
     }
 
     @Override
+    public String languageType() {
+        return q.languageType();
+    }
+
+    @Override
     public String greet() {
         return q.greet().toUpperCase();
     }
